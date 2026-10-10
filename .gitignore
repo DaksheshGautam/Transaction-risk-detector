@@ -1,0 +1,40 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# ===== Virtual Environment =====
+venv/
+.env
+
+# ===== Logs =====
+logs/
+*.log
+
+# ===== Artifacts / Models =====
+# data files (DO NOT PUSH)
+artifacts/*.csv
+# ML Artifacts
+artifacts/*.json
+
+models/
+#*.pkl
+*.joblib
+
+# ===== Dataset =====
+*.csv
+data/
+datasets/
+
+# ===== Jupyter =====
+.ipynb_checkpoints/
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+
+# ===== VS Code =====
+.vscode/
+*.egg-info/
