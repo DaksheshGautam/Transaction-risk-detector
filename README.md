@@ -8,7 +8,7 @@ This system predicts the **fraud probability** of a transaction and classifies i
 
 ## 🌐 Live Demo
 
-Live application URL will be added after this repository's deployment is verified.
+🔗 **Live Application:** [Transaction Risk Detector](https://transaction-risk-detector-dakshesh.onrender.com)
 
 > ⚠️ *Note:* Hosted on Render Free Tier — the service may spin down after inactivity and take ~30–50 seconds to wake up.
 
@@ -125,6 +125,10 @@ Transaction-Risk-Detector/
 - Docker also binds to the host's `PORT` (default: 10000).
 - Dependency versions match the saved scikit-learn 1.8.0 and XGBoost 3.1.2 artifacts.
 - Linux uses the CPU-only XGBoost package to keep the deployment small.
+- Hosted on a free Render instance in Singapore.
+- This service was created from the public GitHub repository URL. For future
+  updates, use **Manual Deploy → Deploy latest commit** in the Render dashboard.
+  Connect the GitHub provider or create a Blueprint if you want automatic deploys.
 
 ### Run locally
 
