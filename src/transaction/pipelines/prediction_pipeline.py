@@ -6,13 +6,15 @@ import pandas as pd
 from src.transaction.logger import logger
 from src.transaction.exception import CustomException
 import sys
+from pathlib import Path
 
 
 class PredictionPipeline:
     def __init__(self):
         try:
-            self.model_path = os.path.join("artifacts", "model.pkl")
-            self.preprocessor_path = os.path.join("artifacts", "preprocessor.pkl")
+            artifact_dir = Path(__file__).resolve().parents[3] / "artifacts"
+            self.model_path = artifact_dir / "model.pkl"
+            self.preprocessor_path = artifact_dir / "preprocessor.pkl"
 
             self.model = joblib.load(self.model_path)
             self.preprocessor = joblib.load(self.preprocessor_path)

@@ -2,12 +2,28 @@ from flask import Flask, render_template, request
 import pandas as pd
 import os
 import sys
+from functools import lru_cache
 
 from src.transaction.pipelines.prediction_pipeline import PredictionPipeline
 from src.transaction.logger import logger
 from src.transaction.exception import CustomException
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
+
+
+@lru_cache(maxsize=1)
+def get_predictor():
+    return PredictionPipeline()
+
+
+@app.get("/healthz")
+def health():
+    try:
+        get_predictor()
+        return {"status": "ok"}, 200
+    except Exception:
+        logger.exception("Model readiness check failed")
+        return {"status": "unavailable"}, 503
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -36,7 +52,7 @@ def index():
 
             df = pd.DataFrame([data])
 
-            predictor = PredictionPipeline()
+            predictor = get_predictor()
             output = predictor.predict(df)
 
             result = {

@@ -1,6 +1,6 @@
 # 🚨 Transaction Risk Detector – Fraud Detection System
 
-A **production-ready machine learning web application** for **real-time transaction fraud detection**, built using **XGBoost**, **Flask**, and **Docker**, and deployed on **Render**.
+A machine learning demo for transaction risk detection, built using **XGBoost**, **Flask**, and **Docker**, with a **Render** deployment configuration.
 
 This system predicts the **fraud probability** of a transaction and classifies it as **Low Risk** or **High Risk**, handling highly imbalanced fraud data effectively.
 
@@ -8,8 +8,7 @@ This system predicts the **fraud probability** of a transaction and classifies i
 
 ## 🌐 Live Demo
 
-🔗 **Live Application:**  
-https://transaction-risk-detector.onrender.com  
+Live application URL will be added after this repository's deployment is verified.
 
 > ⚠️ *Note:* Hosted on Render Free Tier — the service may spin down after inactivity and take ~30–50 seconds to wake up.
 
@@ -48,7 +47,7 @@ Fraud datasets are highly imbalanced. PR-AUC focuses on **precision and recall o
 - ✅ Clean and responsive UI  
 - ✅ End-to-end ML inference pipeline  
 - ✅ Dockerized deployment  
-- ✅ Auto-deploy from GitHub to Render  
+- ✅ Render deployment configuration
 - ✅ Production-style logging & exception handling  
 
 ---
@@ -119,8 +118,34 @@ Transaction-Risk-Detector/
 
 - Application is **containerized using Docker**
 - Deployed on **Render Web Service**
-- **Auto-deploy enabled** on every push to `main` branch
-- Flask app exposed on Render-assigned port
+- `render.yaml` configures a free Python web service using Python 3.12.
+- Install command: `pip install -r requirements.txt`
+- Start command: `gunicorn --workers 1 --threads 2 --timeout 120 --bind 0.0.0.0:$PORT app:app`
+- `/healthz` checks that both trained artifacts can be loaded.
+- Docker also binds to the host's `PORT` (default: 10000).
+- Dependency versions match the saved scikit-learn 1.8.0 and XGBoost 3.1.2 artifacts.
+- Linux uses the CPU-only XGBoost package to keep the deployment small.
+
+### Run locally
+
+```bash
+python -m venv .venv
+# Windows: .venv\Scripts\activate
+# macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt
+python app.py
+```
+
+Open `http://localhost:10000`. Test with synthetic transaction values only.
+
+### Verify the app
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+The smoke tests exercise the real saved model, static assets, input errors,
+readiness failures, and artifact loading from a different working directory.
 
 ---
 

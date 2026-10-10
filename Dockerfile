@@ -1,20 +1,15 @@
-# 1️⃣ Base image
-FROM python:3.10-slim
+FROM python:3.12-slim
 
-# 2️⃣ Set working directory
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    OMP_NUM_THREADS=1 \
+    OPENBLAS_NUM_THREADS=1
+
 WORKDIR /app
-
-# 3️⃣ Copy requirements first (for caching)
+RUN apt-get update && apt-get install -y --no-install-recommends libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
 COPY requirements.txt .
-
-# 4️⃣ Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-
-# 5️⃣ Copy entire project
 COPY . .
-
-# 6️⃣ Expose port (Render uses 10000)
 EXPOSE 10000
-
-# 7️⃣ Run app using gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:10000", "app:app"]
+CMD ["sh", "-c", "exec gunicorn --workers 1 --threads 2 --timeout 120 --bind 0.0.0.0:${PORT:-10000} app:app"]
